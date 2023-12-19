@@ -1,0 +1,53 @@
+<div class="topContainer">
+    <div class="leftPart">
+        <div class="example-button-row">
+            <button class="todayButton" mat-button >{{TopBar.TODAY}}</button>
+        </div>
+        <div class="dateSection">
+            <div class="leftArrow">
+                <div class="leftOne"><mat-icon class="backArrow">arrow_backward</mat-icon></div>
+            </div>
+            <div class="date">
+                <h4>December 6, 2021</h4>
+                <mat-icon class="dropArrow">arrow_drop_down</mat-icon>
+            </div>
+            <div class="rightArrow">
+                <div class="rightOne"><mat-icon class="frontArrow">arrow_forward</mat-icon></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="filterImg">
+        <img [src]="image" />
+    </div>
+
+    <div class="middlePart">
+        <div class="deptment">
+            <h4>{{TopBar.DEPARTMENT}}</h4>
+            <mat-form-field appearance="outline">
+                <mat-label>Select an option</mat-label>
+                <mat-select disableRipple>
+                  <mat-option value="1">Option 1</mat-option>
+                  <mat-option value="2">Option 2</mat-option>
+                  <mat-option value="3">Option 3</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="source">
+            <h4>{{TopBar.SOURCE}}</h4>
+            <mat-form-field appearance="outline">
+                <mat-label>Select an option</mat-label>
+                <mat-select>
+                  <mat-option value="option1">Option 1</mat-option>
+                  <mat-option value="option2">Option 2</mat-option>
+                  <mat-option value="option3">Option 3</mat-option>
+                </mat-select>
+              </mat-form-field>
+        </div>
+    </div>
+
+    
+</div>
+<div>
+    <app-patient-booking></app-patient-booking>
+</div>

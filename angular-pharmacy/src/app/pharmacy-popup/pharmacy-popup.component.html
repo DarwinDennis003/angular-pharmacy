@@ -1,0 +1,61 @@
+<div class="wholePopup">
+    <div class="topContainer">
+        <div><b>Dispensed Date : 22 Dec 2023</b></div>
+        <mat-icon (click)="closePopUp()">close</mat-icon>
+    </div>
+    <hr style="background-color: grey;">
+    <div class="tableContainer">
+        <table mat-table [dataSource]="dataSource" class="pharmacy-mat-table">
+            <ng-container matColumnDef="Generic_Name">
+              <th mat-header-cell *matHeaderCellDef><b>Generic_Name</b></th>
+              <td mat-cell *matCellDef="let row">{{ row.Generic_Name }}</td>
+            </ng-container>
+          
+            <ng-container matColumnDef="Trade_Name">
+              <th mat-header-cell *matHeaderCellDef><b>Trade_Name</b></th>
+              <td mat-cell *matCellDef="let row">{{ row.Trade_Name }}</td>
+            </ng-container>
+          
+            <ng-container matColumnDef="Batch">
+              <th mat-header-cell *matHeaderCellDef><b>Batch</b></th>
+              <td mat-cell *matCellDef="let row">{{ row.Batch }}</td>
+            </ng-container>
+          
+            <ng-container matColumnDef="Expiry_Date">
+                <th mat-header-cell *matHeaderCellDef><b>Expiry_Date</b></th>
+                    <td mat-cell *matCellDef="let row">{{ row.Expiry_Date }}</td>
+            </ng-container>
+          
+            <ng-container matColumnDef="Details">
+              <th mat-header-cell *matHeaderCellDef><b>Details</b></th>
+              <td mat-cell *matCellDef="let row">{{ row.Details }}</td>
+            </ng-container>
+          
+            <ng-container matColumnDef="Stock">
+              <th mat-header-cell *matHeaderCellDef><b>Stock</b></th>
+              <td mat-cell *matCellDef="let row">{{ row.Stock }}</td>
+            </ng-container>
+          
+            <ng-container matColumnDef="Unit_Price">
+              <th mat-header-cell *matHeaderCellDef><b>Unit_Price</b></th>
+              <td mat-cell *matCellDef="let row">{{ row.Unit_Price }}</td>
+            </ng-container>
+          
+            <ng-container matColumnDef="Quantity">
+              <th mat-header-cell *matHeaderCellDef><b>Quantity</b></th>
+              <td mat-cell *matCellDef="let row">{{ row.Quantity }}</td>
+            </ng-container>
+            
+            <ng-container matColumnDef="Total_Price">
+                <th mat-header-cell *matHeaderCellDef><b>Total_Price</b></th>
+                    <td mat-cell *matCellDef="let row">{{ row.Total_Price }}</td>
+            </ng-container>
+            <ng-container matColumnDef="Status">
+                <th mat-header-cell *matHeaderCellDef><b>Status</b></th>
+                    <td  mat-cell *matCellDef="let row">{{ row.Status }}</td>
+            </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row  *matRowDef="let row; columns: displayedColumns;" ></tr>
+        </table>
+    </div>
+</div>

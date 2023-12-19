@@ -1,0 +1,59 @@
+<table mat-table [dataSource]="dataSource" class="pharmacy-mat-table">
+    <ng-container matColumnDef="doctorName">
+      <th mat-header-cell *matHeaderCellDef><b>{{TopBar.DOCTOR_NAME}}</b></th>
+      <td mat-cell *matCellDef="let row">{{ row.doctorName }}</td>
+    </ng-container>
+  
+    <ng-container matColumnDef="patientName">
+      <th mat-header-cell *matHeaderCellDef><b>{{TopBar.PATIENT_NAME}}</b></th>
+      <td mat-cell *matCellDef="let row">{{ row.patientName }}</td>
+    </ng-container>
+  
+    <ng-container matColumnDef="gender">
+      <th mat-header-cell *matHeaderCellDef><b>{{TopBar.GENDER}}</b></th>
+      <td mat-cell *matCellDef="let row">{{ row.gender }}</td>
+    </ng-container>
+  
+    <ng-container matColumnDef="age">
+        <th mat-header-cell *matHeaderCellDef><b>{{TopBar.AGE}}</b></th>
+            <td mat-cell *matCellDef="let row">{{ row.age }}</td>
+    </ng-container>
+  
+    <ng-container matColumnDef="patientId">
+      <th mat-header-cell *matHeaderCellDef><b>{{TopBar.PATIENT_ID}}</b></th>
+      <td mat-cell *matCellDef="let row">{{ row.patientId }}</td>
+    </ng-container>
+  
+    <ng-container matColumnDef="encounterDate">
+      <th mat-header-cell *matHeaderCellDef><b>{{TopBar.ENCOUNTERED_DATE}}</b></th>
+      <td mat-cell *matCellDef="let row">{{ row.encounterDate }}</td>
+    </ng-container>
+  
+    <ng-container matColumnDef="dispensedDate">
+      <th mat-header-cell *matHeaderCellDef><b>{{TopBar.DISPENSED_DATE}}</b></th>
+      <td mat-cell *matCellDef="let row">{{ row.dispensedDate }}</td>
+    </ng-container>
+  
+    <ng-container matColumnDef="orderStatus">
+      <th mat-header-cell *matHeaderCellDef><b>{{TopBar.ORDER_STATUS}}</b></th>
+      <td mat-cell *matCellDef="let row" [ngClass]="row.orderStatus == 'Dispensed' ? 'green-font' : ''">{{ row.orderStatus }}</td>
+    </ng-container>
+    
+    <ng-container matColumnDef="department">
+        <th mat-header-cell *matHeaderCellDef><b>{{TopBar.DEPARTMENT}}</b></th>
+            <td mat-cell *matCellDef="let row">{{ row.department }}</td>
+    </ng-container>
+  
+    <ng-container matColumnDef="source">
+        <th mat-header-cell *matHeaderCellDef><b>{{TopBar.SOURCE}}</b></th>
+            <td mat-cell *matCellDef="let row">{{ row.source }}</td>
+    </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" 
+        (click)="openPatientDetails(row)" 
+        [ngClass]="row.orderStatus == 'Dispensed' ? 'green-row' : '' "
+        > </tr>
+      
+        
+  
+</table>
