@@ -1,0 +1,25 @@
+<div id="dialog-component-wrapper">
+    <div id="dialog-header">
+        <span>{{'Dispensed Date:'}}</span>
+        <mat-icon id="dialog-close-icon" (click)="closePopup()">close</mat-icon>
+      </div>
+      <app-resuable-table
+      [dataSource]="[dialogdata]"
+      [columnDef]="columnDef"
+      [tableConfig]="tableConfig"
+      >
+
+      </app-resuable-table>
+      
+      
+      <div id="dialog-footer">
+        <div id="item-length-span">
+          {{ '' + ' items' }}
+        </div>
+        <div id="confirm-btn-wrapper">
+          <button mat-raised-button id="confirm-btn">
+            Confirm
+          </button>
+        </div>  
+      </div>
+</div>

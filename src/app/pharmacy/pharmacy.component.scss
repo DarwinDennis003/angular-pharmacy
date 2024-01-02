@@ -1,0 +1,66 @@
+@import "../../styles.scss" ;
+
+#pharmacy-header{
+    width: 100%;
+    height: 13%;
+    display: flex;
+    justify-content: space-between;
+}
+$header-btns-wrapper-margin : 3px ; 
+$header-btns-wrapper-padding : 3px ;
+#header-btns-wrapper{
+    display: flex;
+    width: 100%;
+    box-sizing: border-box;
+    margin : $header-btns-wrapper-margin ;
+    padding: $header-btns-wrapper-padding;
+    justify-content: space-between; 
+    align-items: center;
+
+}
+
+#caleneder-events-wrapper{
+    display: flex;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    align-items: center;
+    width: 50%;
+    padding: 1em;
+}
+
+#today-btn{
+    background-color: $trias-primary;
+    color: white;
+    height: 5.5vh;
+    width: 6vw; 
+    box-sizing: border-box;
+}
+
+#current-date-span{
+    font-size: 1em;
+}
+
+.arrow-icon{
+    color: $trias-primary;
+}
+
+#mat-datepicker-input{
+    display: none;
+}
+
+#dropdown-btns-wrapper{
+    display: flex;
+    width: 50%;
+    justify-content: flex-start;
+}
+
+.dropdown-btn{
+    margin: 1em;
+    display: flex;
+    align-items: center;
+}
+
+#pharmacy-orders-table{
+    width: 100%;
+    height: 87vh;
+}
