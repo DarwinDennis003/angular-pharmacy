@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ResuableTableComponent } from './resuable-table/resuable-table.component';
 import { ResuableDialogComponent } from './resuable-dialog/resuable-dialog.component';
 import { DialogEmulatorComponent } from './dialog-emulator/dialog-emulator.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -22,7 +23,8 @@ import { DialogEmulatorComponent } from './dialog-emulator/dialog-emulator.compo
     MaterialModule ,
     ReactiveFormsModule,
     FormsModule,
-    MatIconModule
+    MatIconModule,
+    HttpClientModule
   ],
   exports : [PharmacyComponent]
 })

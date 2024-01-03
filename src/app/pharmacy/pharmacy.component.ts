@@ -1,9 +1,10 @@
-import { Component, OnInit, signal } from '@angular/core';
-import { HEADER_DROPDOWNS, HeaderBtnConstants } from './pharmacy.constants';
+import { Component, OnInit, Signal, signal } from '@angular/core';
+import { HEADER_DROPDOWNS, HeaderBtnConstants, PHARMACY_ORDERS_LIST_ITEMS_TABLE, PHARMACY_ORDERS_TABLE, PharmacyOrders, PharmacyOrdersListTable, PharmacyOrdersTable } from './pharmacy.constants';
 import moment from 'moment'; 
 import { MatDialog } from '@angular/material/dialog';
 import { DialogEmulatorComponent } from './dialog-emulator/dialog-emulator.component';
 import { ResuableTableConfig } from './resuable-table/resuable-table.component';
+import { PharmacyService } from './pharmacy.service';
 @Component({
   selector: 'app-pharmacy',
   templateUrl: './pharmacy.component.html',
@@ -14,29 +15,20 @@ export class PharmacyComponent implements OnInit{
   public headerDropdowns : any = HEADER_DROPDOWNS ; 
   currentSelectedDate !: string ;
   public tableConfig : ResuableTableConfig = {
-    renderSelectionBox : false ,
-  }
+                       renderSelectionBox : false ,
+                       }
+  public matTabledataSource !: any;
+  public pharmacyOrdersColumn : PharmacyOrdersTable[] = PHARMACY_ORDERS_TABLE;
+  public pharmacyOrdersListColumn : PharmacyOrdersListTable[] = PHARMACY_ORDERS_LIST_ITEMS_TABLE;
 
-  dummyColumn : any = ['Name' , "Age" , 'Sex'];
-  dataSource : any = [{
-    'Name' : 'darwin',
-    'Age' : 23 ,
-    'Sex' : 'Male'
-    }]
 
-  public pharmacyOrdersColumn : string[] = ['Doctor Name','Patient Name' ,'Gender' ,'Age' ,
-                                            'Patient ID','Encounter Date','Order Status', 'Department',
-                                            'Source'
-                                          ]
-  public pharmacyOrdersListColumn : string[] = ['Generic Name','Trade Name','Batch No','Expiry Date','Details','Stock',
-                                                'Unit Price','Quantity','Total Price','Status'
-                                          ]
   ngOnInit(): void {
     this.setCurrentDate();
   }
 
   constructor(
     private dialog : MatDialog ,
+    private pharmacyService : PharmacyService
   ){
 
   }
@@ -53,7 +45,45 @@ export class PharmacyComponent implements OnInit{
    * @param event
    */
   onDateChangeEvent(event: any){
-    this.currentSelectedDate = moment(event.value).format('MMMM DD, YYYY');  }
+    console.log('fired');
+    
+    this.currentSelectedDate = moment(event.value).format('MMMM DD, YYYY');  
+    this.getOrdersByDate()
+  }
+
+  /*
+  API call for PharmacyOders 
+   */
+  getOrdersByDate(){
+    let date : string = this.returnFormattedDate(this.currentSelectedDate);
+    let res = this.pharmacyService.getOrdersByDate(date).subscribe(
+      {
+        next : (res : PharmacyOrders[]) => {
+          this.tableDataSourceMapper(res)
+          console.log(res);
+        },
+        error : (err) => {console.log(err);
+        }
+      }
+    )
+  }
+
+
+  /* 
+  Map api response to table datasource
+   */
+
+  tableDataSourceMapper(res : PharmacyOrders[]){
+    this.matTabledataSource = res ; 
+  }
+
+
+  /* 
+  Return the date in YYYY-MM-DD 
+   */
+  returnFormattedDate(date: string) : string{
+    return moment(date).format('YYYY-MM-DD')
+  }
 
   /* 
   * Add date by a day 
@@ -63,6 +93,7 @@ export class PharmacyComponent implements OnInit{
     let date = new Date(this.currentSelectedDate)
     date.setDate(date.getDate() + 1);
     this.currentSelectedDate = moment(date).format('MMMM DD, YYYY'); 
+    this.getOrdersByDate()
   }
 
   /* 
@@ -73,25 +104,49 @@ export class PharmacyComponent implements OnInit{
     let date = new Date(this.currentSelectedDate)
     date.setDate(date.getDate() - 1);
     this.currentSelectedDate = moment(date).format('MMMM DD, YYYY'); 
+    this.getOrdersByDate()
   }
 
 
   /* 
+  Open Order details dialog
    */
 
  async  openOrderDetails(data : any){
-    console.log(data,"data");
+    let listItems = await this.returnPharmacyOrderListItems();
     let dialogInstance = await this.dialog.open(DialogEmulatorComponent,{
       panelClass : 'reusable-dialog-panel-class',
       data : {
-        componentData : data ,
+        componentData : listItems ,
         tableConfig : {
           renderSelectionBox : true , 
+          renderQuantityInputBox : true , 
           columnDef : this.pharmacyOrdersListColumn
         }
       } ,
     })
 
     let resFromDialog = await dialogInstance.afterClosed().toPromise() 
+  }
+
+
+  /* 
+  Return Order list for pharmacy order
+   */
+  returnPharmacyOrderListItems(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.pharmacyService.getOrderListItem('ORD1231').subscribe(
+        {
+          next: (res) => {
+            console.log(res, 'res');
+            resolve(res);
+          },
+          error: (err: any) => {
+            console.log(err);
+            reject(err);
+          },
+        }
+      );
+    });
   }
 }

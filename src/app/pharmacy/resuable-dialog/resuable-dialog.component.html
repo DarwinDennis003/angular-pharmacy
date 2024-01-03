@@ -4,7 +4,7 @@
         <mat-icon id="dialog-close-icon" (click)="closePopup()">close</mat-icon>
       </div>
       <app-resuable-table
-      [dataSource]="[dialogdata]"
+      [dataSource]="dialogdata"
       [columnDef]="columnDef"
       [tableConfig]="tableConfig"
       >
@@ -14,7 +14,7 @@
       
       <div id="dialog-footer">
         <div id="item-length-span">
-          {{ '' + ' items' }}
+          {{ dialogdata.length + ' items' }}
         </div>
         <div id="confirm-btn-wrapper">
           <button mat-raised-button id="confirm-btn">
