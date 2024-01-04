@@ -121,6 +121,7 @@ export class PharmacyComponent implements OnInit{
         tableConfig : {
           renderSelectionBox : true , 
           renderQuantityInputBox : true , 
+          isEnableCalculations : true , 
           columnDef : this.pharmacyOrdersListColumn
         }
       } ,

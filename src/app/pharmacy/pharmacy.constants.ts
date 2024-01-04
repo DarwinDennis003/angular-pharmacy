@@ -60,7 +60,7 @@ export type PharmacyOrdersListTable = {
     { id: 'drug_trade_name', label: 'Trade Name' },
     { id: 'drug_batch_number', label: 'Batch No' },
     { id: 'drug_expiry_date', label: 'Expiry Date' },
-    { id: 'details', label: 'Details' },
+    { id: 'drug_frequency', label: 'Details' },
     { id: 'drug_stock', label: 'Stock' },
     { id: 'drug_unit_price', label: 'Unit Price' },
     { id: 'quantity', label: 'Quantity' },

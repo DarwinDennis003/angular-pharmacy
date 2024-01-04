@@ -1,9 +1,10 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, computed, signal } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 export interface ResuableTableConfig{
   renderSelectionBox ?: boolean ,
   renderQuantityInputBox ?: boolean ,
+  isEnableCalculations ? : boolean , 
   columnDef ?: string[] 
 }
 @Component({
@@ -26,6 +27,11 @@ export class ResuableTableComponent implements OnInit{
   public matTableDataSource: MatTableDataSource<any> = new MatTableDataSource();
   displayedColumns: any;
 
+  public quantity = signal<number>(1);
+  public unitPrice = signal<number>(1);
+  // Your customn component calcuations goes here
+ 
+  
   ngOnInit(): void 
   {
     this.inputDataResolver();
@@ -72,9 +78,28 @@ export class ResuableTableComponent implements OnInit{
   inputDataResolver(){
     this.matTableDataSource = new MatTableDataSource<any>(this.dataSource);
     this.displayedColumns = this.columnDef.map((column: any) => column.id);
-    console.log(this.dataSource , this.columnDef , this.tableConfig);
   }
 
+
+  /**
+   * Initialize calculations operands on @isEnableCalculations true  
+   * Initialize your concerned signals here ..
+   */ 
+  preProcessCalulationOperand(row : any){ 
+    this.quantity.set(row.quantity);
+    this.unitPrice.set(row.drug_unit_price);
+  }
+   
+
+  /**
+   *  
+   * 
+   * */
+  calculateTotalPrice(row : any){    
+    this.preProcessCalulationOperand(row);
+    let totalPrice = computed(() => this.quantity() * this.unitPrice());
+    row.total_price = totalPrice()
+  }
   
 
   emitCloseComponentEvent(row : any ){
