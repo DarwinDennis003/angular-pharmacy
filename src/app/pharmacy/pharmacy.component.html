@@ -35,8 +35,12 @@
                 <div class="dropdown-btn">
                     <mat-form-field class="header-form-select" appearance="outline">
                         <mat-select>
-                            @for (food of ['Maternity','Pharmacy']; track food) {
-                            <mat-option [value]="food">{{food}}</mat-option>
+                            @for (value of item.value; track value) {
+                            <mat-option 
+                            [value]="value"
+                            (click)="onDropdownItemSelected(item.name , value)"
+                            >
+                            {{value}}</mat-option>
                           }
                         </mat-select>
                     </mat-form-field>

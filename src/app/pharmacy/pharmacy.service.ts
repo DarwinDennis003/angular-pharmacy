@@ -8,7 +8,6 @@ import { API_VERSION, SERVER_PORTS } from '../configs/connection-config';
 })
 export class PharmacyService {
   private pharmacyServerPort : string = SERVER_PORTS.pharmacyPort;
-  private apiVersion : string = API_VERSION;
   private pharmacyUrl : string = `http://localhost:${this.pharmacyServerPort}/${API_VERSION}`
 
 
@@ -24,5 +23,12 @@ export class PharmacyService {
   getOrderListItem(orderId ?: string) : Observable<any>{
     const url : string = `${this.pharmacyUrl}/pharmacy/order/list_items/${orderId}`;
     return this.http.get(url)
+  }
+
+  dispensePharmacyItems(dispense_items: any) : Observable<any>{
+    console.log(dispense_items,"dispense_items");
+    
+    const url : string = `${this.pharmacyUrl}/pharmacy/order/list_items/dispense`;
+    return this.http.put(url,dispense_items)
   }
 }

@@ -11,8 +11,9 @@ export class ResuableDialogComponent implements OnInit{
   @Input() dialogdata : any = [];
   @Input() tableConfig !: ResuableTableConfig;
   @Output() closeDialog : EventEmitter<any> = new EventEmitter();
-  
+  @Output() emitToEmulator : EventEmitter<any>  = new EventEmitter();
   public columnDef !: string[] ;
+  public emittedTableData : any ; 
   ngOnInit(): void {
     this.dataResolver()
   }
@@ -28,6 +29,21 @@ export class ResuableDialogComponent implements OnInit{
   closePopup(){   
     this.closeDialog.emit(this.dialogdata);
   }
+
+  handleTableDataEmission(data:any){
+    console.log(data,"data data");
+    
+    this.emittedTableData = data ;
+  }
+  
+
+
+  handleConfirmClickEvent(){
+    this.emitToEmulator.emit(this.emittedTableData )
+  }
+
+
+
 
 
 }

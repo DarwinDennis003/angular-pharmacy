@@ -44,6 +44,10 @@ export class DialogEmulatorComponent implements OnInit{
   this.dialogRef.close(data)
  }
 
+ emitToParentComponent(data:any){
+  this.closeEmulatorAndDialog(data)
+ }
+
 
 
 }

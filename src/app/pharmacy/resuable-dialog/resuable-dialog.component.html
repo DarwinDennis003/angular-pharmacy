@@ -4,20 +4,22 @@
         <mat-icon id="dialog-close-icon" (click)="closePopup()">close</mat-icon>
       </div>
       <app-resuable-table
+      #table
       [dataSource]="dialogdata"
       [columnDef]="columnDef"
       [tableConfig]="tableConfig"
+      (dataEmitter)="handleTableDataEmission($event)"
       >
-
       </app-resuable-table>
-      
-      
+ 
       <div id="dialog-footer">
         <div id="item-length-span">
           {{ dialogdata.length + ' items' }}
         </div>
         <div id="confirm-btn-wrapper">
-          <button mat-raised-button id="confirm-btn">
+          <button mat-raised-button 
+                  id="confirm-btn" 
+                  (click)="handleConfirmClickEvent()" >
             Confirm
           </button>
         </div>  

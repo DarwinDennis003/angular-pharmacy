@@ -5,11 +5,13 @@ export enum HeaderBtnConstants {
 export const HEADER_DROPDOWNS = [
     {
         name : 'department',
-        placeholder : 'Select Department'
+        placeholder : 'Select Department',
+        value : [],
     },
     {
         name : 'source',
-        placeholder : 'Select Source'
+        placeholder : 'Select Source',
+        value : []
     }
 ]
 

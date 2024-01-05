@@ -1,10 +1,11 @@
-import { Component, OnInit, Signal, signal } from '@angular/core';
+import { Component, OnInit, Signal, inject, signal } from '@angular/core';
 import { HEADER_DROPDOWNS, HeaderBtnConstants, PHARMACY_ORDERS_LIST_ITEMS_TABLE, PHARMACY_ORDERS_TABLE, PharmacyOrders, PharmacyOrdersListTable, PharmacyOrdersTable } from './pharmacy.constants';
 import moment from 'moment'; 
 import { MatDialog } from '@angular/material/dialog';
 import { DialogEmulatorComponent } from './dialog-emulator/dialog-emulator.component';
 import { ResuableTableConfig } from './resuable-table/resuable-table.component';
 import { PharmacyService } from './pharmacy.service';
+import { UtilityMethodService } from '../utils/utility-method.service';
 @Component({
   selector: 'app-pharmacy',
   templateUrl: './pharmacy.component.html',
@@ -20,15 +21,17 @@ export class PharmacyComponent implements OnInit{
   public matTabledataSource !: any;
   public pharmacyOrdersColumn : PharmacyOrdersTable[] = PHARMACY_ORDERS_TABLE;
   public pharmacyOrdersListColumn : PharmacyOrdersListTable[] = PHARMACY_ORDERS_LIST_ITEMS_TABLE;
-
-
+  public departments : string [] = [];
+  public source : string[] = ['IP','OP'];
+  public componentData : any = []
   ngOnInit(): void {
     this.setCurrentDate();
   }
 
   constructor(
     private dialog : MatDialog ,
-    private pharmacyService : PharmacyService
+    private pharmacyService : PharmacyService,
+    private utils: UtilityMethodService
   ){
 
   }
@@ -45,8 +48,6 @@ export class PharmacyComponent implements OnInit{
    * @param event
    */
   onDateChangeEvent(event: any){
-    console.log('fired');
-    
     this.currentSelectedDate = moment(event.value).format('MMMM DD, YYYY');  
     this.getOrdersByDate()
   }
@@ -59,7 +60,9 @@ export class PharmacyComponent implements OnInit{
     let res = this.pharmacyService.getOrdersByDate(date).subscribe(
       {
         next : (res : PharmacyOrders[]) => {
+          this.componentData = res
           this.tableDataSourceMapper(res)
+          this.getHeaderFilterValues(res)
           console.log(res);
         },
         error : (err) => {console.log(err);
@@ -128,6 +131,8 @@ export class PharmacyComponent implements OnInit{
     })
 
     let resFromDialog = await dialogInstance.afterClosed().toPromise() 
+    if(resFromDialog)
+    this.dispensePharmacyItems(resFromDialog);
   }
 
 
@@ -150,4 +155,31 @@ export class PharmacyComponent implements OnInit{
       );
     });
   }
+
+  dispensePharmacyItems(dispenseItems : any ){
+    this.pharmacyService.dispensePharmacyItems(dispenseItems).subscribe({
+      next : (res) =>{console.log(res)},
+      error : (error)=>{console.error(error)}
+    })
+  }
+
+  /**
+   * 
+   * 
+   *  */ 
+  getHeaderFilterValues( res : any){
+    this.departments = this.utils.getUniquePropertyValues(res,'department')
+    this.headerDropdowns[0].value = this.departments
+    this.headerDropdowns[1].value = this.source
+  }
+
+
+  /* 
+   */
+
+  onDropdownItemSelected(source  : string , value : string){
+    let res = this.utils.almightyArrayFilter(this.componentData , source , value)
+    this.tableDataSourceMapper(res);
+  }
+
 }

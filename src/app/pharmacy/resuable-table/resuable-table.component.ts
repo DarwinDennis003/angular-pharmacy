@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, computed, signal } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, computed, inject, signal } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 export interface ResuableTableConfig{
@@ -22,10 +22,11 @@ export class ResuableTableComponent implements OnInit{
   @Input() columnDef : any = []; 
   @Input() tableConfig !: ResuableTableConfig ;
   @Output() closeComponent : EventEmitter<any> = new EventEmitter();
-  
+  @Output() dataEmitter : EventEmitter<any> = new EventEmitter();
   selection = new SelectionModel<any>(true, []);
   public matTableDataSource: MatTableDataSource<any> = new MatTableDataSource();
   displayedColumns: any;
+  matSelectedData:any
 
   public quantity = signal<number>(1);
   public unitPrice = signal<number>(1);
@@ -72,7 +73,8 @@ export class ResuableTableComponent implements OnInit{
  * Filter selected row data for dispense
  */
   filterItemsForDispense(rowItem : any){
-    console.log(this.selection.selected , "rowItem");
+    this.matSelectedData = this.selection.selected 
+    this.dataEmitter.emit(this.matSelectedData)
   }
 
   inputDataResolver(){
