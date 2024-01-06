@@ -24,7 +24,7 @@ $header-btns-wrapper-padding : 3px ;
     justify-content: flex-start;
     box-sizing: border-box;
     align-items: center;
-    width: 50%;
+    width: 35%;
     padding: 1em;
 }
 
@@ -50,12 +50,13 @@ $header-btns-wrapper-padding : 3px ;
 
 #dropdown-btns-wrapper{
     display: flex;
-    width: 50%;
+    width: 65%;
     justify-content: flex-start;
 }
 
 .dropdown-btn{
     margin: 1em;
+    margin-top: 2em;
     display: flex;
     align-items: center;
 }
@@ -63,4 +64,6 @@ $header-btns-wrapper-padding : 3px ;
 #pharmacy-orders-table{
     width: 100%;
     height: 87vh;
+    padding : 0.5em;
+    box-sizing : border-box;
 }

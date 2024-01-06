@@ -3,7 +3,9 @@
         <span>{{'Dispensed Date:'}}</span>
         <mat-icon id="dialog-close-icon" (click)="closePopup()">close</mat-icon>
       </div>
-      <app-resuable-table
+      <div class="line-break-default"></div>
+      <div id="app-resuable-table-wrapper">
+        <app-resuable-table
       #table
       [dataSource]="dialogdata"
       [columnDef]="columnDef"
@@ -11,7 +13,8 @@
       (dataEmitter)="handleTableDataEmission($event)"
       >
       </app-resuable-table>
- 
+      </div>
+      <div class="line-break-default"></div>
       <div id="dialog-footer">
         <div id="item-length-span">
           {{ dialogdata.length + ' items' }}

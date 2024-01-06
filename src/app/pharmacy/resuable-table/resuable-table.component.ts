@@ -79,7 +79,7 @@ export class ResuableTableComponent implements OnInit{
 
   inputDataResolver(){
     this.matTableDataSource = new MatTableDataSource<any>(this.dataSource);
-    this.displayedColumns = this.columnDef.map((column: any) => column.id);
+    this.displayedColumns = this.columnDef?.map((column: any) => column.id);
   }
 
 

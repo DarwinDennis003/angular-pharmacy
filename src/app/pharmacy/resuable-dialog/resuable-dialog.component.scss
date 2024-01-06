@@ -5,6 +5,8 @@
     flex-direction: column;
     justify-content: space-between;
     margin : 1em ;
+    box-sizing: border-box;
+    height: 100%;
 }
 
 
@@ -12,8 +14,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 8%;
+    padding: 0em;
+    box-sizing: border-box;
 }
-
+#app-resuable-table-wrapper{
+    height: 60vh;
+    box-sizing: border-box;
+}
 #dialog-close-icon{
     cursor: pointer ;
 }
@@ -21,9 +29,15 @@
 #dialog-footer{
     display: flex;
     justify-content: space-between;
-    // padding : 1em; 
+    padding: 0.5em;
+    box-sizing: border-box;
+    align-items: center;
 }
 
 #confirm-btn{
     background-color: $trias-primary;
+}
+
+.line-break-default{
+    border: 1px solid lightgrey;
 }

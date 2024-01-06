@@ -34,6 +34,7 @@
             @for(item of headerDropdowns ; track item.name){
                 <div class="dropdown-btn">
                     <mat-form-field class="header-form-select" appearance="outline">
+                        <mat-label>{{item.placeholder}}</mat-label>
                         <mat-select>
                             @for (value of item.value; track value) {
                             <mat-option 

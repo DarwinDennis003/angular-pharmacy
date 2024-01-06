@@ -31,11 +31,8 @@ export class DialogEmulatorComponent implements OnInit{
    */
 
   dataResolver(){
-    this.componentData = this.popupMetaData.componentData; 
+    this.componentData = this.popupMetaData.componentData || []; 
     this.tableConfig  = this.popupMetaData.tableConfig || []; 
-
-    console.log(this.componentData);
-    
   }
 
  /* 

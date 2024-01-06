@@ -26,8 +26,6 @@ export class PharmacyService {
   }
 
   dispensePharmacyItems(dispense_items: any) : Observable<any>{
-    console.log(dispense_items,"dispense_items");
-    
     const url : string = `${this.pharmacyUrl}/pharmacy/order/list_items/dispense`;
     return this.http.put(url,dispense_items)
   }

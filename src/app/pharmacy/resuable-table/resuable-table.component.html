@@ -3,8 +3,7 @@
     <ng-container *ngFor="let column of columnDef" [matColumnDef]="column.id">
      
         @if(column.id=='selection_box'){
-    
-          <th mat-header-cell *matHeaderCellDef>
+          <th class="table-header" mat-header-cell *matHeaderCellDef>
             <mat-checkbox
               
               (change)="$event ? toggleAllRows() : null"
@@ -25,7 +24,7 @@
             </mat-checkbox>
           </td>
         }
-        <th mat-header-cell *matHeaderCellDef>
+        <th class="table-header" mat-header-cell *matHeaderCellDef>
           {{ column.label }}
         </th>
     

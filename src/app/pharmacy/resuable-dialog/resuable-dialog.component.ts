@@ -23,7 +23,7 @@ export class ResuableDialogComponent implements OnInit{
   }
 
   dataResolver(){
-    this.columnDef = this.tableConfig.columnDef || [];
+    this.columnDef = this.tableConfig?.columnDef || [];
   }
 
   closePopup(){   

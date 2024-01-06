@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ResuableTableComponent } from './resuable-table.component';
+import { MatTableModule } from '@angular/material/table';
 
 describe('ResuableTableComponent', () => {
   let component: ResuableTableComponent;
@@ -8,7 +9,8 @@ describe('ResuableTableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ResuableTableComponent]
+      declarations: [ResuableTableComponent],
+      imports: [MatTableModule]
     })
     .compileComponents();
     
