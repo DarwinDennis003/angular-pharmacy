@@ -1,16 +1,12 @@
 <div id="pharmacy-header">
     <div id="header-btns-wrapper">
         <div id="caleneder-events-wrapper">
-            <div class="first-btn">
-
-           
             <button mat-raised-button
                     id="today-btn"
                     (click)="setCurrentDate()"
             >
             {{headerBtnConstants.todayBtn}}
            </button>
-           <div class="date-button">
            <button mat-flat-button
                  class="arrow-btn"
                 (click)="onBackwardBtnClicked()"
@@ -18,8 +14,8 @@
             <mat-icon class="arrow-icon"   
             >arrow_back</mat-icon>
             </button>
-           <div class="date-picker">
-                <span id="current-date-span">{{currentSelectedDate}}</span>
+           
+                <p id="current-date-span">{{currentSelectedDate}}</p>
                 <input matInput 
                                 [matDatepicker]="datepicker" 
                                 (dateChange)="onDateChangeEvent($event)"
@@ -27,24 +23,13 @@
                         />
                         <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
                         <mat-datepicker #datepicker class="custom-datepicker-panel"></mat-datepicker>
-                    </div>
+
             <button mat-flat-button 
                     class="arrow-btn"
                     (click)="onForwardBtnClicked()">
                 <mat-icon class="arrow-icon">arrow_forward</mat-icon>
             </button>
         </div>
-        </div>
-        </div>
-        <div class="second-div">
-            <!-- <div class="filter-div">
-                <img
-                  class="filter-icon"
-                  src="../../assets/pharmacy/filter.png"
-                  alt="filter Icon"
-                />
-                <span class="filter-tag">Filters</span>
-              </div> -->
         <div id="dropdown-btns-wrapper">
             @for(item of headerDropdowns ; track item.name){
                 <div class="dropdown-btn">
@@ -61,7 +46,6 @@
                     </mat-form-field>
                 </div>
             }
-        </div>
         </div>
     </div>
 </div>
