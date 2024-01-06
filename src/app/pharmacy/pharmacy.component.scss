@@ -1,45 +1,61 @@
 @import "../../styles.scss" ;
 
 #pharmacy-header{
-    width: 100%;
-    height: 13%;
-    display: flex;
-    justify-content: space-between;
+    height:  calc(100% - 675px);
+    width:  calc(100% - 40px);
+    padding: 20px;
+    background-color: #eef1f2;
 }
 $header-btns-wrapper-margin : 3px ; 
 $header-btns-wrapper-padding : 3px ;
 #header-btns-wrapper{
     display: flex;
-    width: 100%;
-    box-sizing: border-box;
-    margin : $header-btns-wrapper-margin ;
-    padding: $header-btns-wrapper-padding;
-    justify-content: space-between; 
-    align-items: center;
+    flex-direction: row;
 
 }
 
 #caleneder-events-wrapper{
     display: flex;
-    justify-content: flex-start;
-    box-sizing: border-box;
-    align-items: center;
-    width: 50%;
-    padding: 1em;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 42% !important;
 }
 
 #today-btn{
-    background-color: $trias-primary;
-    color: white;
-    height: 5.5vh;
-    width: 6vw; 
-    box-sizing: border-box;
+    background-color: #4ab2af !important;
+    color: white !important;
+    height: 45px;
+    width: 90px;
 }
-
+.arrow-btn{
+    height: 45px;
+    color:  #4ab2af !important;;
+}
+.date-picker{
+    display: flex;
+    flex-direction: row; 
+    height: 46px
+}
 #current-date-span{
-    font-size: 1em;
+    align-items: center;
+    display: flex;
+    font-weight: 500;
+    padding-left: 20px;
 }
+.date-button{
+    display: flex;
+    flex-direction: row;
+    padding-left: 20px;
 
+}
+.second-div{
+    display: flex;
+    flex-direction: row;
+}
+.first-btn{
+    display: flex;
+    flex-direction: row; 
+}
 .arrow-icon{
     color: $trias-primary;
 }
@@ -55,9 +71,9 @@ $header-btns-wrapper-padding : 3px ;
 }
 
 .dropdown-btn{
-    margin: 1em;
-    display: flex;
-    align-items: center;
+    font-size: 6px !important;
+    height: 20px;
+    padding-left: 20px;
 }
 
 #pharmacy-orders-table{
