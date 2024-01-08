@@ -6,6 +6,7 @@ import { DialogEmulatorComponent } from './dialog-emulator/dialog-emulator.compo
 import { ResuableTableConfig } from './resuable-table/resuable-table.component';
 import { PharmacyService } from './pharmacy.service';
 import { UtilityMethodService } from '../utils/utility-method.service';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-pharmacy',
   templateUrl: './pharmacy.component.html',
@@ -28,6 +29,10 @@ export class PharmacyComponent implements OnInit{
     this.setCurrentDate();
   }
 
+  /**
+   *@constructor 
+   * 
+   */
   constructor(
     private dialog : MatDialog ,
     private pharmacyService : PharmacyService,
@@ -36,25 +41,31 @@ export class PharmacyComponent implements OnInit{
 
   }
 
-  /* 
-  Set current date to singal 
-   */
+  /**
+   * @description Set current date 
+   */ 
   setCurrentDate(){
     this.currentSelectedDate=moment().format('MMMM DD, YYYY');
   }
 
+
   /**
    * This will update and change the selected date
    * @param event
+   * @callback getOrdersByDate
    */
   onDateChangeEvent(event: any){
     this.currentSelectedDate = moment(event.value).format('MMMM DD, YYYY');  
     this.getOrdersByDate()
   }
 
-  /*
-  API call for PharmacyOders 
-   */
+
+  /**
+   * @description HTTP call for Pharmacy Orders
+   * @callback returnFormattedDate
+   * @callback tableDataSourceMapper
+   * @callback getHeaderFilterValues
+   * */ 
   getOrdersByDate(){
     let date : string = this.returnFormattedDate(this.currentSelectedDate);
     let res = this.pharmacyService.getOrdersByDate(date).subscribe(
@@ -71,27 +82,27 @@ export class PharmacyComponent implements OnInit{
     )
   }
 
-
-  /* 
-  Map api response to table datasource
-   */
-
+  /**
+   * @param {PharmacyOrders[]} res 
+   * */
   tableDataSourceMapper(res : PharmacyOrders[]){
     this.matTabledataSource = res ; 
   }
 
 
-  /* 
-  Return the date in YYYY-MM-DD 
-   */
+  /**
+   * @param {string} date
+   * @returns {string} moment(date)
+   * */ 
   returnFormattedDate(date: string) : string{
     return moment(date).format('YYYY-MM-DD')
   }
 
-  /* 
-  * Add date by a day 
+  
+  /**
+   * @event @description When forwardbtn event triggered
+   * @callback getOrdersByDate 
    */
-
   onForwardBtnClicked(){
     let date = new Date(this.currentSelectedDate)
     date.setDate(date.getDate() + 1);
@@ -99,10 +110,11 @@ export class PharmacyComponent implements OnInit{
     this.getOrdersByDate()
   }
 
-  /* 
-  Reduce date by a day
-   */
-
+  
+  /** 
+  *@event @description When backwardBtn event triggered
+  *@callback getOrdersByDate
+  */
   onBackwardBtnClicked(){
     let date = new Date(this.currentSelectedDate)
     date.setDate(date.getDate() - 1);
@@ -111,13 +123,14 @@ export class PharmacyComponent implements OnInit{
   }
 
 
-  /* 
-  Open Order details dialog
-   */
-
- async  openOrderDetails(data : any){
+  /**
+  * @description Opens {DialogEmulatorComponent} component
+  * @callback returnPharmacyOrderListItems
+  * @callback dispensePharmacyItems
+  */
+ async  openOrderDetails(data:any){
     let listItems = await this.returnPharmacyOrderListItems();
-    let dialogInstance = await this.dialog.open(DialogEmulatorComponent,{
+    let dialogInstance  = await this.dialog.open(DialogEmulatorComponent,{
       panelClass : 'reusable-dialog-panel-class',
       data : {
         componentData : listItems ,
@@ -129,16 +142,18 @@ export class PharmacyComponent implements OnInit{
         }
       } ,
     })
-
-    let resFromDialog = await dialogInstance.afterClosed().toPromise() 
+    let resFromDialog : Subscription = await dialogInstance.afterClosed().toPromise() 
     if(resFromDialog)
     this.dispensePharmacyItems(resFromDialog);
+    resFromDialog.unsubscribe()
   }
 
 
-  /* 
-  Return Order list for pharmacy order
-   */
+  /**
+   * @type {Promise<any>}
+   * @returns {Promise}
+   * @callback getOrderListItem
+   * */ 
   returnPharmacyOrderListItems(): Promise<any> {
     return new Promise((resolve, reject) => {
       this.pharmacyService.getOrderListItem('ORD1231').subscribe(
@@ -156,16 +171,23 @@ export class PharmacyComponent implements OnInit{
     });
   }
 
+
+  /**
+   *  @param dispenseItems
+   *  @callback dispensePharmacyItems
+   * */ 
   dispensePharmacyItems(dispenseItems : any ){
-    this.pharmacyService.dispensePharmacyItems(dispenseItems).subscribe({
+    let sub:Subscription = this.pharmacyService.dispensePharmacyItems(dispenseItems).subscribe({
       next : (res) =>{console.log(res)},
       error : (error)=>{console.error(error)}
     })
+    sub.unsubscribe();
   }
 
+
   /**
-   * 
-   * 
+   * @description Assign FilterDropdown values 
+   * @param {any} res
    *  */ 
   getHeaderFilterValues( res : any){
     this.departments = this.utils.getUniquePropertyValues(res,'department')
@@ -174,9 +196,11 @@ export class PharmacyComponent implements OnInit{
   }
 
 
-  /* 
-   */
-
+  /**
+   * @description Filter row items based on dropdown values
+   * @param {string} source
+   * @param {sring} value
+   *  */
   onDropdownItemSelected(source  : string , value : string){
     let res = this.utils.almightyArrayFilter(this.componentData , source , value)
     this.tableDataSourceMapper(res);

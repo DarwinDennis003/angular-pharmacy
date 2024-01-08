@@ -78,10 +78,23 @@ export class ResuableTableComponent implements OnInit{
   }
 
   inputDataResolver(){
-    this.matTableDataSource = new MatTableDataSource<any>(this.dataSource);
+    let processedData = this.preProcessInputData(this.dataSource)
+    this.matTableDataSource = new MatTableDataSource<any>(processedData);
     this.displayedColumns = this.columnDef?.map((column: any) => column.id);
   }
 
+  /**
+   * Your customn preprocessing goes here..
+   * Only for DOM rendering purpose , No modify original data @var {this.dataSource}
+   */ 
+  preProcessInputData(data : any ){
+    if(data)
+    return data.forEach((x : any)=>{x.is_dispensed ?? x.is_dispensed == 1 ? 
+                    x.is_dispensed = 'Dispensed' : 
+                    x.is_dispensed = 'Prescribed'})
+    else 
+    return []
+  }
 
   /**
    * Initialize calculations operands on @isEnableCalculations true  

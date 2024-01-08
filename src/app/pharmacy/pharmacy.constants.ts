@@ -67,5 +67,5 @@ export type PharmacyOrdersListTable = {
     { id: 'drug_unit_price', label: 'Unit Price' },
     { id: 'quantity', label: 'Quantity' },
     { id: 'total_price', label: 'Total Price' },
-    { id: 'order_status', label: 'Status' }
+    { id: 'is_dispensed', label: 'Status' }
  ];
