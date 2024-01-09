@@ -2,7 +2,7 @@
 
 #pharmacy-header{
     width: 100%;
-    height: 13%;
+    height: 13vh;
     display: flex;
     justify-content: space-between;
 }
@@ -12,11 +12,11 @@ $header-btns-wrapper-padding : 3px ;
     display: flex;
     width: 100%;
     box-sizing: border-box;
-    margin : $header-btns-wrapper-margin ;
-    padding: $header-btns-wrapper-padding;
-    justify-content: space-between; 
+    margin: 3px;
+    padding: 3px;
+    justify-content: space-between;
     align-items: center;
-
+    height: 12vh;
 }
 
 #caleneder-events-wrapper{
@@ -25,7 +25,7 @@ $header-btns-wrapper-padding : 3px ;
     box-sizing: border-box;
     align-items: center;
     width: 35%;
-    padding: 1em;
+    padding: 0.1em;
 }
 
 #today-btn{
@@ -34,10 +34,13 @@ $header-btns-wrapper-padding : 3px ;
     height: 5.5vh;
     width: 6vw; 
     box-sizing: border-box;
+    margin: 0.5em;
 }
 
 #current-date-span{
     font-size: 1em;
+    padding: 0.4em;
+    box-sizing: border-box;
 }
 
 .arrow-icon{
@@ -66,4 +69,9 @@ $header-btns-wrapper-padding : 3px ;
     height: 87vh;
     padding : 0.5em;
     box-sizing : border-box;
+    // box-shadow: none;
+}
+
+#layout{
+    background-color : #eef1f2;
 }

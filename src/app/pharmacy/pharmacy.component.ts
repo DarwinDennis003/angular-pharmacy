@@ -6,7 +6,7 @@ import { DialogEmulatorComponent } from './dialog-emulator/dialog-emulator.compo
 import { ResuableTableConfig } from './resuable-table/resuable-table.component';
 import { PharmacyService } from './pharmacy.service';
 import { UtilityMethodService } from '../utils/utility-method.service';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 @Component({
   selector: 'app-pharmacy',
   templateUrl: './pharmacy.component.html',
@@ -25,8 +25,10 @@ export class PharmacyComponent implements OnInit{
   public departments : string [] = [];
   public source : string[] = ['IP','OP'];
   public componentData : any = []
+
+
   ngOnInit(): void {
-    this.setCurrentDate();
+    this.preloader()
   }
 
   /**
@@ -34,18 +36,27 @@ export class PharmacyComponent implements OnInit{
    * 
    */
   constructor(
-    private dialog : MatDialog ,
+    public dialog : MatDialog ,
     private pharmacyService : PharmacyService,
     private utils: UtilityMethodService
   ){
 
   }
 
+
+  private preloader(){
+    this.setCurrentDate();
+    this.getOrdersByDate();
+  }
+
   /**
    * @description Set current date 
+   * @event onTodayBtnclicked
+   * @callback getOrdersByDate
    */ 
   setCurrentDate(){
     this.currentSelectedDate=moment().format('MMMM DD, YYYY');
+    this.getOrdersByDate()
   }
 
 
@@ -66,20 +77,29 @@ export class PharmacyComponent implements OnInit{
    * @callback tableDataSourceMapper
    * @callback getHeaderFilterValues
    * */ 
-  getOrdersByDate(){
+  getOrdersByDate() {
     let date : string = this.returnFormattedDate(this.currentSelectedDate);
-    let res = this.pharmacyService.getOrdersByDate(date).subscribe(
-      {
-        next : (res : PharmacyOrders[]) => {
-          this.componentData = res
-          this.tableDataSourceMapper(res)
-          this.getHeaderFilterValues(res)
-          console.log(res);
-        },
-        error : (err) => {console.log(err);
-        }
+    try {
+      if (date) {
+        let res = this.pharmacyService.getOrdersByDate(date).subscribe(
+          {
+            next : (res : PharmacyOrders[]) => {
+              this.componentData = res
+              this.tableDataSourceMapper(res)
+              this.getHeaderFilterValues(res)
+              console.log(res);
+            },
+            error : (err) => {console.log(err);
+            this.componentData = []
+            }
+          }
+        )
+      } else {
+        throw new Error("Date possibly undefined or null");
       }
-    )
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   /**
@@ -125,12 +145,17 @@ export class PharmacyComponent implements OnInit{
 
   /**
   * @description Opens {DialogEmulatorComponent} component
+  * @callback returnOrderID
   * @callback returnPharmacyOrderListItems
   * @callback dispensePharmacyItems
   */
  async  openOrderDetails(data:any){
-    let listItems = await this.returnPharmacyOrderListItems();
+    let orderID = this.returnOrderID(data)
+    try {
+    let listItems = await this.returnPharmacyOrderListItems(orderID);
     let dialogInstance  = await this.dialog.open(DialogEmulatorComponent,{
+      minHeight: '41vw',
+      minWidth: '90vw',
       panelClass : 'reusable-dialog-panel-class',
       data : {
         componentData : listItems ,
@@ -142,28 +167,41 @@ export class PharmacyComponent implements OnInit{
         }
       } ,
     })
-    let resFromDialog : Subscription = await dialogInstance.afterClosed().toPromise() 
-    if(resFromDialog)
-    this.dispensePharmacyItems(resFromDialog);
-    resFromDialog.unsubscribe()
+    let resFromDialog  = await dialogInstance.afterClosed().toPromise() 
+    if(resFromDialog.length>1)
+    this.dispensePharmacyItems(resFromDialog);  
+    } catch (error) {
+      console.error('Unable to open dialog component')
+    }
+    
   }
 
+  /** 
+  * @description Processor for returning OrderId
+  * @param data
+  * @returns drug_order_id
+  */
+  returnOrderID(data : any){
+    return data.drug_order_id
+     
+  }
 
   /**
    * @type {Promise<any>}
+   * @param orderID 
    * @returns {Promise}
    * @callback getOrderListItem
    * */ 
-  returnPharmacyOrderListItems(): Promise<any> {
+  returnPharmacyOrderListItems(orderID : string): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.pharmacyService.getOrderListItem('ORD1231').subscribe(
+      this.pharmacyService.getOrderListItem(orderID).subscribe(
         {
           next: (res) => {
             console.log(res, 'res');
             resolve(res);
           },
           error: (err: any) => {
-            console.log(err);
+            console.error(err);
             reject(err);
           },
         }
@@ -182,6 +220,8 @@ export class PharmacyComponent implements OnInit{
       error : (error)=>{console.error(error)}
     })
     sub.unsubscribe();
+    //trigger for getOrders API call
+    this.setCurrentDate();
   }
 
 

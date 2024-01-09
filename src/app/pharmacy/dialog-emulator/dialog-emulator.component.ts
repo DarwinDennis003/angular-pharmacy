@@ -26,21 +26,24 @@ export class DialogEmulatorComponent implements OnInit{
     this.dataResolver()
   }
 
-
-  /* 
-   */
-
+  /** 
+  * @Resolver 
+  */
   dataResolver(){
     this.componentData = this.popupMetaData.componentData || []; 
     this.tableConfig  = this.popupMetaData.tableConfig || []; 
   }
 
- /* 
-  */
+ /**
+  * @description close dialog
+  * */ 
  closeEmulatorAndDialog(data : any){
   this.dialogRef.close(data)
  }
 
+ /**
+  * @callback closeEmulatorAndDialog
+  * */ 
  emitToParentComponent(data:any){
   this.closeEmulatorAndDialog(data)
  }

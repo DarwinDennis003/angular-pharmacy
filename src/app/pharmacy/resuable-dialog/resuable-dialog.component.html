@@ -1,6 +1,6 @@
 <div id="dialog-component-wrapper">
     <div id="dialog-header">
-        <span>{{'Dispensed Date:'}}</span>
+        <span><b>Dispensed Date: {{dispensedDate}}</b> </span>
         <mat-icon id="dialog-close-icon" (click)="closePopup()">close</mat-icon>
       </div>
       <div class="line-break-default"></div>
@@ -17,7 +17,7 @@
       <div class="line-break-default"></div>
       <div id="dialog-footer">
         <div id="item-length-span">
-          {{ dialogdata.length + ' items' }}
+          {{ dialogdata.length + ' item/s' }}
         </div>
         <div id="confirm-btn-wrapper">
           <button mat-raised-button 

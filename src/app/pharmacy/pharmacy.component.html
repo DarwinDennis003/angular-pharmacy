@@ -1,56 +1,57 @@
-<div id="pharmacy-header">
-    <div id="header-btns-wrapper">
-        <div id="caleneder-events-wrapper">
-            <button mat-raised-button
-                    id="today-btn"
-                    (click)="setCurrentDate()"
-            >
-            {{headerBtnConstants.todayBtn}}
-           </button>
-           <button mat-flat-button
-                 class="arrow-btn"
-                (click)="onBackwardBtnClicked()"
-           >
-            <mat-icon class="arrow-icon"   
-            >arrow_back</mat-icon>
-            </button>
-           
-                <p id="current-date-span">{{currentSelectedDate}}</p>
-                <input matInput 
-                                [matDatepicker]="datepicker" 
-                                (dateChange)="onDateChangeEvent($event)"
-                                 id="mat-datepicker-input" 
-                        />
-                        <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
-                        <mat-datepicker #datepicker class="custom-datepicker-panel"></mat-datepicker>
-
-            <button mat-flat-button 
-                    class="arrow-btn"
-                    (click)="onForwardBtnClicked()">
-                <mat-icon class="arrow-icon">arrow_forward</mat-icon>
-            </button>
-        </div>
-        <div id="dropdown-btns-wrapper">
-            @for(item of headerDropdowns ; track item.name){
-                <div class="dropdown-btn">
-                    <mat-form-field class="header-form-select" appearance="outline">
-                        <mat-label>{{item.placeholder}}</mat-label>
-                        <mat-select>
-                            @for (value of item.value; track value) {
-                            <mat-option 
-                            [value]="value"
-                            (click)="onDropdownItemSelected(item.name , value)"
-                            >
-                            {{value}}</mat-option>
-                          }
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-            }
+<div id="layout">
+    <div id="pharmacy-header">
+        <div id="header-btns-wrapper">
+            <div id="caleneder-events-wrapper">
+                <button mat-raised-button
+                        id="today-btn"
+                        (click)="setCurrentDate()"
+                >
+                {{headerBtnConstants.todayBtn}}
+               </button>
+               <button mat-flat-button
+                     class="arrow-btn"
+                    (click)="onBackwardBtnClicked()"
+               >
+                <mat-icon class="arrow-icon"   
+                >arrow_back</mat-icon>
+                </button>
+               
+                    <p id="current-date-span">{{currentSelectedDate}}</p>
+                    <input matInput 
+                                    [matDatepicker]="datepicker" 
+                                    (dateChange)="onDateChangeEvent($event)"
+                                     id="mat-datepicker-input" 
+                            />
+                            <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+                            <mat-datepicker #datepicker class="custom-datepicker-panel"></mat-datepicker>
+    
+                <button mat-flat-button 
+                        class="arrow-btn"
+                        (click)="onForwardBtnClicked()">
+                    <mat-icon class="arrow-icon">arrow_forward</mat-icon>
+                </button>
+            </div>
+            <div id="dropdown-btns-wrapper">
+                @for(item of headerDropdowns ; track item.name){
+                    <div class="dropdown-btn">
+                        <mat-form-field class="header-form-select" appearance="outline">
+                            <mat-label>{{item.placeholder}}</mat-label>
+                            <mat-select>
+                                @for (value of item.value; track value) {
+                                <mat-option 
+                                [value]="value"
+                                (click)="onDropdownItemSelected(item.name , value)"
+                                >
+                                {{value}}</mat-option>
+                              }
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                }
+            </div>
         </div>
     </div>
-</div>
-<div id="pharmacy-orders-table">
+    <div id="pharmacy-orders-table">
     <app-resuable-table
     [columnDef]="pharmacyOrdersColumn"
     [dataSource]="matTabledataSource"
@@ -58,4 +59,7 @@
     (closeComponent)="openOrderDetails($event)"
     >
     </app-resuable-table>
+    </div>
 </div>
+    
+

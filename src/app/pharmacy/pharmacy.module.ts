@@ -9,8 +9,6 @@ import { ResuableDialogComponent } from './resuable-dialog/resuable-dialog.compo
 import { DialogEmulatorComponent } from './dialog-emulator/dialog-emulator.component';
 import { HttpClientModule } from '@angular/common/http';
 
-
-
 @NgModule({
   declarations: [
     PharmacyComponent,

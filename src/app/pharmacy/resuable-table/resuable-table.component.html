@@ -1,11 +1,10 @@
-<table mat-table [dataSource]="this.dataSource" class="mat-elevation-z8 pharmacy-grid-component">
+<table mat-table [dataSource]="this.dataSource" class="pharmacy-grid-component">
     <!-- Dynamic Columns-->
     <ng-container *ngFor="let column of columnDef" [matColumnDef]="column.id">
      
         @if(column.id=='selection_box'){
           <th class="table-header" mat-header-cell *matHeaderCellDef>
             <mat-checkbox
-              
               (change)="$event ? toggleAllRows() : null"
               [checked]="selection.hasValue() && isAllSelected()"
               [indeterminate]="selection.hasValue() && !isAllSelected()"
@@ -15,7 +14,7 @@
           </th>
           <td mat-cell *matCellDef="let row">
             <mat-checkbox
-  
+              [disabled]="row.isDisabled"
               (click)="$event.stopPropagation() ; filterItemsForDispense(row)"
               (change)="$event ? selection.toggle(row) : null"
               [checked]="selection.isSelected(row)"
@@ -27,9 +26,12 @@
         <th class="table-header" mat-header-cell *matHeaderCellDef>
           {{ column.label }}
         </th> 
-      <td mat-cell *matCellDef="let element">
-        @if(tableConfig.renderQuantityInputBox && column.id=='quantity'){
-            <input class="table-input" 
+      <td mat-cell *matCellDef="let element"
+      [style.width]="column.width ? column.width : null"
+      [ngClass]="column.styleCallback && (column.id == 'status' || column.id == 'order_status')? column.styleCallback(element) : null"
+      >
+        @if(tableConfig.renderQuantityInputBox && column.id=='quantity' && element.isDisabled == false){
+            <input id="qty-input" 
                   [(ngModel)]="element[column.id]"
                   matInput type="number"
                   (input)="calculateTotalPrice(element)" 
@@ -41,8 +43,13 @@
       </td>
     </ng-container>
  
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row  ; columns: displayedColumns;"
+    <tr 
+    [style.height]="'7vh'"
+    [ngClass]="'table-header-row'"   mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr 
+    [style.height]="'6vh'"
+    [ngClass]="row?.colorClass"
+     mat-row *matRowDef="let row  ; columns: displayedColumns;"
      class="table-tr-pharmacy"
      (click)="emitCloseComponentEvent(row)"
      >

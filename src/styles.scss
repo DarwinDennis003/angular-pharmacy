@@ -6,7 +6,7 @@
 :root{
     --trias-primary: #4ab2af;
     --color-black-white: black; 
-    
+    --color-prescribed : #FCD12A;
 }
 
 
@@ -16,15 +16,15 @@ $trias-primary: var(--trias-primary);
 $trias-border: var(--trias-border);
 $color-black-white :var(--color-bw);
 
-
+$prescribed-text-color-code : var(--color-prescribed);
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 
 .reusable-dialog-panel-class{
-    height: 85vh;
-    width: 85vw;
+  width: '400px',
+ 
 }
 
 
